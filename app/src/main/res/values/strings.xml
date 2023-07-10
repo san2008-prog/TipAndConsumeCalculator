@@ -2,7 +2,7 @@
     <string name="app_name">Tip Time</string>
     <string name="calculate_tip">Calculate Tip</string>
     <string name="bill_amount">Bill amount</string>
-    <string name="tip_amount">Tip amount: %s</string>
+    <string name="tip_amount">Tip amount: %s</string>// El %s indica que ahi se colocara el valor de una variable
     <string name="how_was_the_service">Tip (%)</string>
     <string name="round_up_tip">Round up tip?</string>
 </resources>

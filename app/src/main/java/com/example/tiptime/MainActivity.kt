@@ -1,10 +1,12 @@
 package com.example.tiptime
 
-import android.icu.text.NumberFormat
+import java.text.NumberFormat
+//import android.icu.text.NumberFormat //Para Testing solo Funciona java.text.NumberFormat
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.StringRes
+import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -61,6 +63,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+//@VisibleForTesting
 @Composable
 fun TipTimeScreen() {
 
@@ -103,7 +106,7 @@ fun TipTimeScreen() {
             ),
             keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() })
         )
-        RoundTheTipRow(roundUp = roundUp, onRoundingCahnge = {roundUp = it})  // it toma el valor de true o false segun se haga click en el Switch
+        RoundTheTipRow(roundUp = roundUp, onRoundingChange = {roundUp = it})  // it toma el valor de true o false segun se haga click en el Switch
         Spacer(modifier = Modifier.height(24.dp))
         Text(
             text = stringResource(id = R.string.tip_amount, tip),
@@ -145,7 +148,7 @@ fun EditNumberField(
 @Composable
 fun RoundTheTipRow(
     roundUp: Boolean,
-    onRoundingCahnge: (Boolean) -> Unit,
+    onRoundingChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -156,8 +159,10 @@ fun RoundTheTipRow(
     ) {
         Text(text = stringResource(id = R.string.round_up_tip))
         Switch(
-            checked = roundUp, // Solo si se coloca el valor de true el Checked se ejecuta Visualemente tambien.
-            onCheckedChange = onRoundingCahnge,
+            checked = roundUp, // Solo si se coloca el valor de true el Checked se ejecuta Visualmente tambien.
+            onCheckedChange = onRoundingChange, // ls funcion Lambda onRoundingChange es {roundUp = it}, y esta funcion es lo primero q se ejecuta cuando se hace click en el Switch.
+                                                // El valor de it lo devuelve el compilador interno y alternará entre true o false cada vez que se haga click en el Switch.
+                                                // Entenderia que al igual que el parametro onValueChange, este parémetro del Switch tambien disparará la Recomposicion.
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentWidth(Alignment.End),
@@ -167,7 +172,8 @@ fun RoundTheTipRow(
 
 }
 
-private fun calculateTip(
+@VisibleForTesting
+internal fun calculateTip(
     amount: Double,
     tipPercent: Double = 15.0,
     roundUp: Boolean
