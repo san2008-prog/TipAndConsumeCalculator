@@ -173,7 +173,7 @@ fun RoundTheTipRow(
 }
 
 @VisibleForTesting
-internal fun calculateTip(
+private fun calculateTip(
     amount: Double,
     tipPercent: Double = 15.0,
     roundUp: Boolean
